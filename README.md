@@ -35,7 +35,7 @@ import io.wsocket.sdk.WSocket
 import io.wsocket.sdk.createClient
 
 fun main() {
-    val client = createClient("ws://localhost:9001", "your-api-key")
+    val client = createClient("wss://node00.wsocket.online", "your-api-key")
     client.connect()
 
     val chat = client.pubsub.channel("chat:general")
@@ -62,7 +62,7 @@ fun main() {
 ## Push Notifications
 
 ```kotlin
-val push = client.configurePush("https://api.wsocket.io", "admin-token", "app-id")
+val push = client.configurePush("https://node00.wsocket.online", "admin-token", "app-id")
 push.registerFCM("device-token", "user-123")
 push.sendToMember("user-123", mapOf("title" to "Hello", "body" to "World"))
 push.broadcast(mapOf("title" to "Announcement"))
