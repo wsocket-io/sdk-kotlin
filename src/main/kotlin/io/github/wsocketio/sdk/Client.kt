@@ -8,7 +8,7 @@
  *   ch.subscribe { data, meta -> println(data) }
  *   ch.publish(mapOf("text" to "hello"))
  */
-package io.wsocket.sdk
+package io.github.wsocketio.sdk
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
