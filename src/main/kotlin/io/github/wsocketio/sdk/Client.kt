@@ -232,6 +232,40 @@ class PushClient(
         val resp = http.newCall(req).execute()
         return resp.isSuccessful
     }
+
+    fun addChannel(memberId: String, channel: String) =
+        post("channels/add", mapOf("memberId" to memberId, "channel" to channel))
+
+    fun removeChannel(memberId: String, channel: String) =
+        post("channels/remove", mapOf("memberId" to memberId, "channel" to channel))
+
+    fun getVapidKey(): String? {
+        val req = Request.Builder()
+            .url("$baseUrl/api/push/vapid-key")
+            .addHeader("Authorization", "Bearer $token")
+            .addHeader("X-App-Id", appId)
+            .get()
+            .build()
+        val resp = http.newCall(req).execute()
+        val body = resp.body?.string() ?: return null
+        val obj = gson.fromJson(body, Map::class.java)
+        return obj["vapidPublicKey"] as? String
+    }
+
+    fun listSubscriptions(memberId: String? = null, platform: String? = null, limit: Int? = null): String {
+        val params = mutableListOf<String>()
+        memberId?.let { params.add("memberId=$it") }
+        platform?.let { params.add("platform=$it") }
+        limit?.let { params.add("limit=$it") }
+        val qs = if (params.isNotEmpty()) "?" + params.joinToString("&") else ""
+        val req = Request.Builder()
+            .url("$baseUrl/api/push/subscriptions$qs")
+            .addHeader("Authorization", "Bearer $token")
+            .addHeader("X-App-Id", appId)
+            .get()
+            .build()
+        return http.newCall(req).execute().body?.string() ?: ""
+    }
 }
 
 // ─── Client ─────────────────────────────────────────────────
