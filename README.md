@@ -66,6 +66,16 @@ val push = client.configurePush("https://node00.wsocket.online", "admin-token", 
 push.registerFCM("device-token", "user-123")
 push.sendToMember("user-123", mapOf("title" to "Hello", "body" to "World"))
 push.broadcast(mapOf("title" to "Announcement"))
+
+// Channel targeting
+push.addChannel("subscription-id", "alerts")
+push.removeChannel("subscription-id", "alerts")
+
+// VAPID key
+val vapidKey = push.getVapidKey()
+
+// List subscriptions
+val subs = push.listSubscriptions("user-123")
 ```
 
 ## License
