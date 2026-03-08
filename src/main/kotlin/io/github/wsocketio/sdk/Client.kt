@@ -221,6 +221,17 @@ class PushClient(
             .build()
         http.newCall(req).execute()
     }
+
+    fun deleteSubscription(subscriptionId: String): Boolean {
+        val req = Request.Builder()
+            .url("$baseUrl/api/push/subscriptions/$subscriptionId")
+            .addHeader("Authorization", "Bearer $token")
+            .addHeader("X-App-Id", appId)
+            .delete("".toRequestBody(json))
+            .build()
+        val resp = http.newCall(req).execute()
+        return resp.isSuccessful
+    }
 }
 
 // ─── Client ─────────────────────────────────────────────────
